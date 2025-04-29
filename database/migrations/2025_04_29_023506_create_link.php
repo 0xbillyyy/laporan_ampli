@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('monitoring', function (Blueprint $table) {
+        Schema::create('link', function (Blueprint $table) {
             $table->id();
-            $table->text("user_id");
-            $table->text("link");
+            $table->string("id_platform");
+            $table->string("link");
+            $table->text("context");
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('monitoring');
+        Schema::dropIfExists('link');
     }
 };
