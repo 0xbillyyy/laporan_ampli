@@ -18,6 +18,7 @@ class Link extends Model
         "updated_at"
     ];
 
+    
     // Relasi ke Platform
     public function platform()
     {
