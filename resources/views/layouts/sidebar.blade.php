@@ -43,6 +43,16 @@
     </li>
 
 
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('link.create') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Create Link</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('link.create') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Link</span></a>
+    </li>
 
     
     <li class="nav-item">
@@ -55,6 +65,8 @@
             <i class="fas fa-fw fa-table"></i>
             <span>Monitoring</span></a>
     </li>
+
+        
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">

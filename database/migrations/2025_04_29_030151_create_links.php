@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('link', function (Blueprint $table) {
+        Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->string("id_platform");
-            $table->string("link");
-            $table->text("context");
+            $table->unsignedBigInteger('id_platform'); // Hanya ID biasa, tanpa foreign key constraint
+            $table->string('link');
+            $table->text('context')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('link');
+        Schema::dropIfExists('links');
     }
 };

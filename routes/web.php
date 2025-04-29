@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\home;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PlatformController;
+use App\Http\Controllers\LinkController;
 
 
 Route::get('/', function () {
@@ -34,6 +35,12 @@ Route::middleware(["auth", "verified"])->group(function(){
     Route::post('/monitoring/{id}', [MonitoringController::class, 'store'])->name('monitoring.destroy');
 
     
+    Route::get('/link/create', [LinkController::class, 'create'])->name('link.create');
+    Route::post('/link/store', [LinkController::class, 'store'])->name('link.store');
+
+
+
+
     // Route::prefix('monitoring')->name('monitoring.')->group(function () {
         // Route::get('/', [MonitoringController::class, 'index'])->name('index'); // Daftar Monitoring
         // Route::get('/create', [MonitoringController::class, 'create'])->name('create'); // Halaman Create Monitoring
