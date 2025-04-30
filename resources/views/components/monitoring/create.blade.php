@@ -1,12 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-
+@php
+$monitoringMap = $existingMonitorings->keyBy(function ($item) {
+return $item->platform_id . '|' . $item->context;
+});
+@endphp
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Tambah Monitoring Sosial Media</h1>
 
+    <div class="alert alert-success">
+        Halaman ini otomatis save input anda
+    </div>
+
     @foreach($links as $link)
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
             <p class="text-uppercase text-center">{{ $link->context }}</p>
             <hr style="margin-top: -10px; width: 100px; height: 1px;color:grey; background-color: grey;">
@@ -26,8 +34,21 @@
                             <hr
                                 style="margin-top: -10px; width: 100px; height: 1px;color:grey; background-color: grey;">
                             <label for="link"><strong>LINK REPOST</strong></label>
+
+                            @php
+                            $key = $platform->id . '|' . $link->context;
+                            $existing = $monitoringMap->get($key);
+                            @endphp
                             <input type="text" class="form-control autosave-input" placeholder="LINK REPOST..."
-                                data-platform-id="{{ $platform->id }}" data-context="{{ $link->context }}">
+                                data-platform-id="{{ $platform->id }}" data-context="{{ $link->context }}"
+                                data-monitoring-id="{{ $existing?->id }}" data-identity="{{ $link->link }}"
+                                value="{{ $existing?->link }}">
+                            <div class="invalid-feedback autosave-error">
+                                Gagal menyimpan. Silakan coba lagi.
+                            </div>
+
+                            <!-- <input type="text" class="form-control autosave-input" placeholder="LINK REPOST..."
+                                data-platform-id="{{ $platform->id }}" data-context="{{ $link->context }}"> -->
                         </div>
                     </div>
                 </div>
@@ -37,7 +58,7 @@
     </div>
     @endforeach
 
-    <form action="{{ route('monitoring.store') }}" method="POST">
+    <!-- <form action="{{ route('monitoring.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="platform_id">Platform</label>
@@ -76,7 +97,7 @@
             @error('content')
             <div class="text-danger">{{ $message }}</div>
             @enderror
-        </div>
+        </div> -->
 
         <!-- <div class="form-group">
             <label for="author">Penulis</label>
@@ -130,8 +151,8 @@
             @enderror
         </div> -->
 
-        <button type="submit" class="btn btn-primary">Simpan Monitoring</button>
-    </form>
+        <!-- <button type="submit" class="btn btn-primary">Simpan Monitoring</button>
+    </form> -->
 </div>
 @endsection
 @push('scripts')
@@ -145,20 +166,36 @@ $.ajaxSetup({
 $('.autosave-input').on('blur', function() {
     const platformId = $(this).data('platform-id');
     const context = $(this).data('context');
+    const identity = $(this).data('identity');
     const link = $(this).val();
+    const monitoringId = $(this).data('monitoring-id');
+    // const platform = $(this).data('platform');
 
     if (!link) return;
 
-    $.post('/autosave-monitoring', {
-        platform_id: platformId,
-        link: link,
-        context: context
-    }, function(response) {
-        console.log("Berhasil simpan:", response);
-    }).fail(function(xhr) {
-        console.error("Gagal simpan:", xhr.responseText);
+    $.ajax({
+        url: '/autosave-monitoring',
+        method: monitoringId ? 'PUT' : 'POST',
+        data: {
+            platform_id: platformId,
+            link: link,
+            context: context,
+            monitoring_id: monitoringId,
+            identity: identity,
+            // platformId: platformId
+        },
+        success: function(response) {
+            console.log("Berhasil simpan:", response);
+            if (response.id) {
+                // Tambahkan id ke input supaya update di klik selanjutnya
+                $(`[data-platform-id="${platformId}"][data-context="${context}"]`)
+                    .attr('data-monitoring-id', response.id);
+            }
+        },
+        error: function(xhr) {
+            console.error("Gagal simpan:", xhr.responseText);
+        }
     });
 });
-
 </script>
 @endpush

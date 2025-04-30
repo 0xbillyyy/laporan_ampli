@@ -25,33 +25,62 @@ class MonitoringController extends Controller
         return redirect()->route('components.monitoring.index')->with('success', 'Monitoring berhasil dihapus!');
     }
 
+
     public function autoSave(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'platform_id' => 'required|exists:platforms,id',
             'link' => 'required|url',
-            'context' => 'nullable|string',
+            "identity" => "required",
+            // "platformId" => "required"
+            // 'content' => 'required|string',
         ]);
     
-        try {
-            Monitoring::create([
-                'platform_id' => $request->platform_id,
+        // $monitoring = Monitoring::where('user_id', auth()->id())
+        //     ->where('platform_id', $data['platform_id'])
+        //     // ->where('content', $data['content'])
+        //     ->first();
+
+        $link = Link::all();  // Mengambil semua data Link
+
+        $monitoring = Monitoring::where('user_id', auth()->id())  // Mengambil link pertama dari koleksi
+            ->where('content', $data["identity"])  // Mengambil link pertama dari koleksi
+            ->where('platform_id', $data["platform_id"])  // Mengambil link pertama dari koleksi
+            // ->where('platform_id', $data['platform_id'])
+            // ->where('content', $data['content'])
+            ->first();
+
+
+        if ($monitoring) {
+            $monitoring->update(['link' => $data['link']]);
+        } else {
+            $monitoring = Monitoring::create([
                 'user_id' => auth()->id(),
-                'link' => $request->link,
-                'content' => $request->context,
+                'platform_id' => $data['platform_id'],
+                'link' => $data['link'],
+                'content' => $data["identity"],
+                // 'content' => $data['content'],
             ]);
-            return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
+    
+        return response()->json(['message' => 'Success', 'id' => $monitoring->id]);
     }
     
+
 
     public function create()
     {
         $links = Link::all(); // Ambil semua platform
         $platforms = Platform::all();
-        return view('components.monitoring.create', compact('links', "platforms")); // Kirim data platform ke view
+        $existingMonitorings = \App\Models\Monitoring::where('user_id', auth()->id())->get();
+
+        // $viewLinks = Monitoring::where('user_id', auth()->id())  // Mengambil link pertama dari koleksi
+        // ->where('content', $data["identity"])  // Mengambil link pertama dari koleksi
+        // ->where('platform_id', $data["platform_id"])  // Mengambil link pertama dari koleksi
+        // // ->where('platform_id', $data['platform_id'])
+        // // ->where('content', $data['content'])
+
+        return view('components.monitoring.create', compact('links', "platforms", "existingMonitorings")); // Kirim data platform ke view
     }
 
     public function store(Request $request)

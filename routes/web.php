@@ -9,6 +9,11 @@ use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\LinkController;
 
 
+
+use App\Models\Monitoring;
+use App\Models\Link;
+use App\Models\Platform;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,9 +23,25 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(["auth", "verified"])->group(function(){
-    Route::post('/autosave-monitoring', [MonitoringController::class, 'autoSave']);
+    // Route::post('/autosave-monitoring', [MonitoringController::class, 'autoSave']);
+    Route::match(['post', 'put'], '/autosave-monitoring', [MonitoringController::class, 'autoSave'])->name('autosave-monitoring');
 
-    
+
+    Route::get("/awok/{id}/{link}", function($user_id, $link){
+                // $monitoring = Monitoring::where('user_id', auth()->id())
+        // ->where('platform_id', $data['platform_id'])
+        // // ->where('content', $data['content'])
+        // ->first();
+        $monitoring = Monitoring::where('content', auth()->id()."-".$link)
+        // ->where('platform_id', $data['platform_id'])
+        // ->where('content', $data['content'])
+        ->first();
+        echo $monitoring;
+        // echo auth()->id();
+        // echo $link;
+    });
+
+
     Route::get("/dashboard", [home::class, "index"])->name("dashboard");
 
     // Route::get("/category_platform/create", [CategoryPlatformController::class, "create"])->name("create_category_platform");

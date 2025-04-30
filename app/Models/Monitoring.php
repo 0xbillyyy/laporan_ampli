@@ -10,13 +10,18 @@ class Monitoring extends Model
     use HasFactory;
 
     protected $fillable = [
-        'platform_id', 'user_id', 'link', 'content', 'author', "like", "comment", "share", "view", 'published_at'
+        "id", 'platform_id', 'user_id', 'link', 'content', 'author', "like", "comment", "share", "view", 'published_at'
     ];
 
     // Relasi ke Platform
     public function platform()
     {
         return $this->belongsTo(Platform::class);
+    }
+
+    public function link()
+    {
+        return $this->belongsTo(Link::class);
     }
 
     // Relasi ke User
