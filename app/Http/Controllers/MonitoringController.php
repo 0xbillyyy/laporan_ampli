@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Monitoring;
+use App\Models\Link;
 use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +25,33 @@ class MonitoringController extends Controller
         return redirect()->route('components.monitoring.index')->with('success', 'Monitoring berhasil dihapus!');
     }
 
+    public function autoSave(Request $request)
+    {
+        $request->validate([
+            'platform_id' => 'required|exists:platforms,id',
+            'link' => 'required|url',
+            'context' => 'nullable|string',
+        ]);
+    
+        try {
+            Monitoring::create([
+                'platform_id' => $request->platform_id,
+                'user_id' => auth()->id(),
+                'link' => $request->link,
+                'content' => $request->context,
+            ]);
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+    
+
     public function create()
     {
-        $platforms = Platform::all(); // Ambil semua platform
-        return view('components.monitoring.create', compact('platforms')); // Kirim data platform ke view
+        $links = Link::all(); // Ambil semua platform
+        $platforms = Platform::all();
+        return view('components.monitoring.create', compact('links', "platforms")); // Kirim data platform ke view
     }
 
     public function store(Request $request)

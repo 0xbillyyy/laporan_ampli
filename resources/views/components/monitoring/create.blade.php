@@ -1,8 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Tambah Monitoring Sosial Media</h1>
+
+    @foreach($links as $link)
+    <div class="card">
+        <div class="card-body">
+            <p class="text-uppercase text-center">{{ $link->context }}</p>
+            <hr style="margin-top: -10px; width: 100px; height: 1px;color:grey; background-color: grey;">
+            <div class="row text-center mb-3">
+                <div class="col">
+                    <p class="text-uppercase" style="margin-top: -10px;">{{ $link->link }}</p>
+                    <a class="text-uppercase" style="">[ {{ $link->link }} ]</a>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach($platforms as $platform)
+                <div class="col">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <p class="text-uppercase text-center">{{ $platform->name }}</p>
+                            <hr
+                                style="margin-top: -10px; width: 100px; height: 1px;color:grey; background-color: grey;">
+                            <label for="link"><strong>LINK REPOST</strong></label>
+                            <input type="text" class="form-control autosave-input" placeholder="LINK REPOST..."
+                                data-platform-id="{{ $platform->id }}" data-context="{{ $link->context }}">
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     <form action="{{ route('monitoring.store') }}" method="POST">
         @csrf
@@ -10,12 +43,12 @@
             <label for="platform_id">Platform</label>
             <select class="form-control" name="platform_id" id="platform_id" required>
                 <option value="">Pilih Platform</option>
-                @foreach ($platforms as $platform)
-                    <option value="{{ $platform->id }}">{{ $platform->name }}</option>
+                @foreach ($links as $link)
+                <option value="{{ $link->id }}">{{ $link->link }}</option>
                 @endforeach
             </select>
             @error('platform_id')
-                <div class="text-danger">{{ $message }}</div>
+            <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
@@ -23,23 +56,25 @@
             <label for="user_id">User</label>
             <input type="text" class="form-control" name="user_id" id="user_id" value="{{ Auth::id() }}" readonly>
             @error('user_id')
-                <div class="text-danger">{{ $message }}</div>
+            <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
             <label for="link">Link Monitoring</label>
-            <input type="url" class="form-control" name="link" id="link" placeholder="Masukkan link monitoring" value="{{ old('link') }}" required>
+            <input type="url" class="form-control" name="link" id="link" placeholder="Masukkan link monitoring"
+                value="{{ old('link') }}" required>
             @error('link')
-                <div class="text-danger">{{ $message }}</div>
+            <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
             <label for="content">Konten</label>
-            <textarea class="form-control" name="content" id="content" rows="3" placeholder="Masukkan konten">{{ old('content') }}</textarea>
+            <textarea class="form-control" name="content" id="content" rows="3"
+                placeholder="Masukkan konten">{{ old('content') }}</textarea>
             @error('content')
-                <div class="text-danger">{{ $message }}</div>
+            <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
@@ -99,3 +134,31 @@
     </form>
 </div>
 @endsection
+@push('scripts')
+<script>
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$('.autosave-input').on('blur', function() {
+    const platformId = $(this).data('platform-id');
+    const context = $(this).data('context');
+    const link = $(this).val();
+
+    if (!link) return;
+
+    $.post('/autosave-monitoring', {
+        platform_id: platformId,
+        link: link,
+        context: context
+    }, function(response) {
+        console.log("Berhasil simpan:", response);
+    }).fail(function(xhr) {
+        console.error("Gagal simpan:", xhr.responseText);
+    });
+});
+
+</script>
+@endpush

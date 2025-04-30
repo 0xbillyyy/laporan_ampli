@@ -10,6 +10,13 @@ class LinkController extends Controller
 {
     //
 
+    public function index()
+    {
+        $links = Link::all();
+        return view('link.index', compact('links'));
+    }
+
+
     public function create()
     {
         $platforms = Platform::all(); // ambil semua platform untuk dropdown
@@ -27,6 +34,14 @@ class LinkController extends Controller
         Link::create($request->all());
 
         return redirect()->route('link.create')->with('success', 'Link berhasil ditambahkan!');
+    }
+
+    public function destroy($id)
+    {
+        $link = Link::findOrFail($id);
+        $link->delete();
+
+        return redirect()->route('link.index')->with('success', 'Link berhasil dihapus.');
     }
 
 }

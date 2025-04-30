@@ -18,6 +18,9 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(["auth", "verified"])->group(function(){
+    Route::post('/autosave-monitoring', [MonitoringController::class, 'autoSave']);
+
+    
     Route::get("/dashboard", [home::class, "index"])->name("dashboard");
 
     // Route::get("/category_platform/create", [CategoryPlatformController::class, "create"])->name("create_category_platform");
@@ -33,6 +36,8 @@ Route::middleware(["auth", "verified"])->group(function(){
     Route::post('/monitoring/store', [MonitoringController::class, 'store'])->name('monitoring.store');
     Route::get('/monitoring/index', [MonitoringController::class, 'index'])->name('monitoring.index');
     Route::post('/monitoring/{id}', [MonitoringController::class, 'store'])->name('monitoring.destroy');
+
+
 
     
     Route::get('/link/create', [LinkController::class, 'create'])->name('link.create');
