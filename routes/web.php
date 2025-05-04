@@ -7,6 +7,7 @@ use App\Http\Controllers\home;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\TestingController;
 
 
 
@@ -64,6 +65,8 @@ Route::middleware(["auth", "verified"])->group(function(){
     Route::get('/link/create', [LinkController::class, 'create'])->name('link.create');
     Route::post('/link/store', [LinkController::class, 'store'])->name('link.store');
 
+
+    Route::get("/testing", [TestingController::class, "index"])->name("testing");
 
 
 

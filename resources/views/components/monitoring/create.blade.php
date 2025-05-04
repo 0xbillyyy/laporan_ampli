@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@php
-$monitoringMap = $existingMonitorings->keyBy(function ($item) {
-return $item->platform_id . '|' . $item->context;
-});
-@endphp
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Tambah Monitoring Sosial Media</h1>
 
@@ -35,14 +30,15 @@ return $item->platform_id . '|' . $item->context;
                                 style="margin-top: -10px; width: 100px; height: 1px;color:grey; background-color: grey;">
                             <label for="link"><strong>LINK REPOST</strong></label>
 
-                            @php
-                            $key = $platform->id . '|' . $link->context;
-                            $existing = $monitoringMap->get($key);
-                            @endphp
                             <input type="text" class="form-control autosave-input" placeholder="LINK REPOST..."
                                 data-platform-id="{{ $platform->id }}" data-context="{{ $link->context }}"
-                                data-monitoring-id="{{ $existing?->id }}" data-identity="{{ $link->link }}"
-                                value="{{ $existing?->link }}">
+                                data-monitoring-id="" data-identity="{{ $link->link }}"
+                                value="{{ $monitorings_by_platform[$link->context][$platform->id]->link ?? '' }}">
+
+                            <!-- <input type="text" class="form-control autosave-input" placeholder="LINK REPOST..."
+                                data-platform-id="" data-context="{{ $link->context }}"
+                                data-monitoring-id="" data-identity="{{ $link->link }}"
+                                value="{{ $monitorings_by_platform[$link->context][$platform->id]->link ?? '' }}"> -->
                             <div class="invalid-feedback autosave-error">
                                 Gagal menyimpan. Silakan coba lagi.
                             </div>
@@ -99,7 +95,7 @@ return $item->platform_id . '|' . $item->context;
             @enderror
         </div> -->
 
-        <!-- <div class="form-group">
+    <!-- <div class="form-group">
             <label for="author">Penulis</label>
             <input type="text" class="form-control" name="author" id="author" placeholder="Masukkan nama penulis" value="{{ old('author') }}">
             @error('author')
@@ -143,7 +139,7 @@ return $item->platform_id . '|' . $item->context;
             </div>
         </div> -->
 
-        <!-- <div class="form-group">
+    <!-- <div class="form-group">
             <label for="published_at">Tanggal Terbit</label>
             <input type="date" class="form-control" name="published_at" id="published_at" value="{{ old('published_at') }}">
             @error('published_at')
@@ -151,7 +147,7 @@ return $item->platform_id . '|' . $item->context;
             @enderror
         </div> -->
 
-        <!-- <button type="submit" class="btn btn-primary">Simpan Monitoring</button>
+    <!-- <button type="submit" class="btn btn-primary">Simpan Monitoring</button>
     </form> -->
 </div>
 @endsection

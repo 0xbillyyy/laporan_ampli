@@ -70,17 +70,29 @@ class MonitoringController extends Controller
 
     public function create()
     {
-        $links = Link::all(); // Ambil semua platform
+        $links = Link::all();
         $platforms = Platform::all();
-        $existingMonitorings = \App\Models\Monitoring::where('user_id', auth()->id())->get();
-
-        // $viewLinks = Monitoring::where('user_id', auth()->id())  // Mengambil link pertama dari koleksi
-        // ->where('content', $data["identity"])  // Mengambil link pertama dari koleksi
-        // ->where('platform_id', $data["platform_id"])  // Mengambil link pertama dari koleksi
-        // // ->where('platform_id', $data['platform_id'])
-        // // ->where('content', $data['content'])
-
-        return view('components.monitoring.create', compact('links', "platforms", "existingMonitorings")); // Kirim data platform ke view
+        $userId = auth()->id();
+    
+        // Membuat array: [context][platform_id] => monitoring
+        $monitorings_by_platform = [];
+    
+        foreach ($links as $link) {
+            foreach ($platforms as $platform) {
+                $monitoring = Monitoring::where('platform_id', $platform->id)
+                    ->where('user_id', $userId)
+                    ->where('content', $link->link)
+                    ->first();
+    
+                $monitorings_by_platform[$link->context][$platform->id] = $monitoring;
+            }
+        }
+    
+        return view('components.monitoring.create', compact(
+            'links',
+            'platforms',
+            'monitorings_by_platform'
+        ));
     }
 
     public function store(Request $request)
