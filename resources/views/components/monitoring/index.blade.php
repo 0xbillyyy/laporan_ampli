@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Daftar Monitoring Sosial Media</h1>
-
+    <a href="{{ route('convert.docx') }}" class="btn btn-primary col-md-12 mb-3">Export Monitoring</a>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -23,7 +23,7 @@
                             <th>Platform</th>
                             <th>Link</th>
                             <th>Content</th>
-                            <th>Author</th>
+                            <th>Platform</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -34,7 +34,7 @@
                                 <td>{{ $monitoring->platform->name }}</td>
                                 <td><a href="{{ $monitoring->link }}" target="_blank">{{ $monitoring->link }}</a></td>
                                 <td>{{ $monitoring->content }}</td>
-                                <td>{{ $monitoring->author }}</td>
+                                <td>{{ $monitoring->platform->name }}</td>
                                 <td>
                                     <form action="{{ route('monitoring.destroy', $monitoring->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus monitoring ini?');">
                                         @csrf

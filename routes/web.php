@@ -57,8 +57,8 @@ Route::middleware(["auth", "verified"])->group(function(){
     Route::get('/monitoring/create', [MonitoringController::class, 'create'])->name('monitoring.create');
     Route::post('/monitoring/store', [MonitoringController::class, 'store'])->name('monitoring.store');
     Route::get('/monitoring/index', [MonitoringController::class, 'index'])->name('monitoring.index');
+    Route::get("/monitoring/convert/word/{id}", [MonitoringController::class, "convert"])->name("convert.docx");
     Route::post('/monitoring/{id}', [MonitoringController::class, 'store'])->name('monitoring.destroy');
-
 
 
     

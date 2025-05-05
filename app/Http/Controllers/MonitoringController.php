@@ -8,6 +8,11 @@ use App\Models\Platform;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+use Carbon\Carbon;
+
+
 class MonitoringController extends Controller
 {
 
@@ -128,4 +133,68 @@ class MonitoringController extends Controller
         // Redirect ke halaman monitoring
         return redirect()->route('monitoring.create')->with('success', 'Monitoring berhasil ditambahkan!');
     }
+
+    public function convert($id){
+
+        $tanggal = Carbon::now()->format('d-m-Y');
+
+        $view_link_by_id = Link::where("id", $id)->first();
+        $view_platforms = Platform::all();
+    
+    
+
+
+        $phpWord = new PhpWord();
+
+        // Tambahkan section dan isi dokumen
+        $section = $phpWord->addSection();
+        $section->addText(
+            "Dikirim setiap malam jam 20.00 ke Dansatsiber TNI (Dari Kasiops, TMT Jumat {$tanggal}, bentuknya seperti ini, bukan kumpulan Link lagi. Dan hanya amplifikasi link PUTIH SAJA! Bentuk tulisan bisa menyesuaikan, kalau beda tema, silakan dibedakan ditiap nomornya. Cth: laporan tgl {$tanggal})",
+            [
+                "name" => "Arial",
+                "size" => 11,
+                "color" => "FF0000",
+                "bold" => true
+            ]
+        );
+        $section->addText(
+            "Kepada Yth. Bapak Panglima TNI.\n
+            Selamat malam Bapak Panglima, Melaporkan *Amplifikasi kegiatan positif TNI* sbb :",
+            [
+                "name" => "Arial",
+                "size" => 11
+            ]
+        );
+
+        $section->addText($view_link_by_id->link);
+
+
+        foreach ($view_platforms as $view_platform) {
+            $section->addText($view_platform->name."\n");
+    
+            $view_monitorings = Monitoring::where("platform_id", $view_platform->id)->get();
+    
+            foreach ($view_monitorings as $view_monitoring) {
+                // Cek apakah content di monitoring cocok dengan link dari ID yang dicari
+                if ($view_monitoring->content == $view_link_by_id->link) {
+                    $section->addText($view_monitoring->link. "\n");
+                }
+            }
+    
+        }
+
+        // $section->addTest(
+            
+        // );
+        // Simpan file ke path sementara
+        $fileName = 'contoh-export.docx';
+        $tempFile = storage_path($fileName);
+        $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save($tempFile);
+    
+        // Kirim file ke user untuk didownload
+        return response()->download($tempFile)->deleteFileAfterSend(true);
+    
+    }
+
 }

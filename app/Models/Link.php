@@ -25,6 +25,11 @@ class Link extends Model
         return $this->belongsTo(Platform::class, "id_platform");
     }
 
+    public function monitoring()
+    {
+        return $this->belongsTo(Monitoring::class, 'link', 'content');
+    }
+
         // Relasi ke Platform
     // public function platform_by_id()
     // {

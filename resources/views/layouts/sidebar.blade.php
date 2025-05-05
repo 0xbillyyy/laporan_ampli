@@ -30,7 +30,7 @@
 
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="{{ route('platform.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>View Category Platform</span></a>
@@ -40,7 +40,7 @@
         <a class="nav-link" href="{{ route('platform.create') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Create Category Platform</span></a>
-    </li>
+    </li> -->
 
 
     <!-- <li class="nav-item">
@@ -54,7 +54,7 @@
             <span>Link</span></a>
     </li> -->
 
-    
+
     <!-- <li class="nav-item">
         <a class="nav-link" href="{{ route('monitoring.create') }}">
             <i class="fas fa-fw fa-table"></i>
@@ -66,11 +66,26 @@
             <span>Monitoring</span></a>
     </li> -->
 
-
-        <!-- Nav Item - Pages Collapse Menu -->
+    <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo-link" aria-expanded="true"
-            aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo-platform"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Platform</span>
+        </a>
+        <div id="collapseTwo-platform" class="collapse" aria-labelledby="headingTwo-platform" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Components:</h6>
+                <a class="collapse-item" href="{{ route('platform.index') }}">View Platform</a>
+                <a class="collapse-item" href="{{ route('platform.create') }}">Create Platform</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo-link"
+            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
             <span>Link</span>
         </a>

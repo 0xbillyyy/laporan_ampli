@@ -16,7 +16,7 @@ class Monitoring extends Model
     // Relasi ke Platform
     public function platform()
     {
-        return $this->belongsTo(Platform::class);
+        return $this->belongsTo(Platform::class, "platform_id");
     }
 
     public function link()
@@ -29,4 +29,6 @@ class Monitoring extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    
 }
