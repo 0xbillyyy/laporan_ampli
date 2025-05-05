@@ -22,8 +22,14 @@ class Link extends Model
     // Relasi ke Platform
     public function platform()
     {
-        return $this->belongsTo(Platform::class);
+        return $this->belongsTo(Platform::class, "id_platform");
     }
+
+        // Relasi ke Platform
+    // public function platform_by_id()
+    // {
+    //     return $this->belongsTo(Platform::class, "id_platform");
+    // }
 
 
 }

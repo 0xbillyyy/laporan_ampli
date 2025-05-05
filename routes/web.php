@@ -64,6 +64,9 @@ Route::middleware(["auth", "verified"])->group(function(){
     
     Route::get('/link/create', [LinkController::class, 'create'])->name('link.create');
     Route::post('/link/store', [LinkController::class, 'store'])->name('link.store');
+    Route::get('/link/index', [LinkController::class, 'index'])->name('link.index');
+    Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
+
 
 
     Route::get("/testing", [TestingController::class, "index"])->name("testing");

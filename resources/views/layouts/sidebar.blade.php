@@ -43,7 +43,7 @@
     </li>
 
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="{{ route('link.create') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Create Link</span></a>
@@ -52,10 +52,10 @@
         <a class="nav-link" href="{{ route('link.create') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Link</span></a>
-    </li>
+    </li> -->
 
     
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="{{ route('monitoring.create') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Create Monitoring</span></a>
@@ -64,22 +64,37 @@
         <a class="nav-link" href="{{ route('monitoring.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Monitoring</span></a>
-    </li>
+    </li> -->
 
-        
+
+        <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo-link" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Link</span>
+        </a>
+        <div id="collapseTwo-link" class="collapse" aria-labelledby="headingTwo-link" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Components:</h6>
+                <a class="collapse-item" href="{{ route('link.create') }}">Create Link</a>
+                <a class="collapse-item" href="{{ route('link.index') }}">View Link</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
             aria-controls="collapseTwo">
             <i class="fas fa-fw fa-cog"></i>
-            <span>Components</span>
+            <span>Monitoring</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Custom Components:</h6>
-                <a class="collapse-item" href="buttons.html">Buttons</a>
-                <a class="collapse-item" href="cards.html">Cards</a>
+                <a class="collapse-item" href="{{ route('monitoring.index') }}">View Monitoring</a>
+                <a class="collapse-item" href="{{ route('monitoring.create') }}">Create Monitoring</a>
             </div>
         </div>
     </li>

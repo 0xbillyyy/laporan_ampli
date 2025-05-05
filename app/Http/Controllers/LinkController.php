@@ -12,8 +12,9 @@ class LinkController extends Controller
 
     public function index()
     {
-        $links = Link::all();
-        return view('link.index', compact('links'));
+        $links = Link::with('platform')->latest()->get();
+        return view('components.link.index', compact('links'));
+
     }
 
 
@@ -36,12 +37,10 @@ class LinkController extends Controller
         return redirect()->route('link.create')->with('success', 'Link berhasil ditambahkan!');
     }
 
-    public function destroy($id)
+
+    public function destroy(Link $link)
     {
-        $link = Link::findOrFail($id);
         $link->delete();
-
-        return redirect()->route('link.index')->with('success', 'Link berhasil dihapus.');
+        return redirect()->route('links.index')->with('success', 'Link berhasil dihapus.');
     }
-
 }
