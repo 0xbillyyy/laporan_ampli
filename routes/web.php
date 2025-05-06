@@ -54,11 +54,11 @@ Route::middleware(["auth", "verified"])->group(function(){
     Route::delete('/platform/{platform}', [PlatformController::class, 'destroy'])->name('platform.destroy');
 
 
+    Route::get("/export/word/{id}", [MonitoringController::class, "convert"])->name("convert.docx");
     Route::get('/monitoring/create', [MonitoringController::class, 'create'])->name('monitoring.create');
     Route::post('/monitoring/store', [MonitoringController::class, 'store'])->name('monitoring.store');
     Route::get('/monitoring/index', [MonitoringController::class, 'index'])->name('monitoring.index');
-    Route::get("/monitoring/convert/word/{id}", [MonitoringController::class, "convert"])->name("convert.docx");
-    Route::post('/monitoring/{id}', [MonitoringController::class, 'store'])->name('monitoring.destroy');
+    Route::delete('/monitoring/{id}', [MonitoringController::class, 'destroy'])->name('monitoring.destroy');
 
 
     

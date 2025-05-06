@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <h1 class="h3 mb-4 text-gray-800">Daftar Monitoring Sosial Media</h1>
-    <a href="{{ route('convert.docx') }}" class="btn btn-primary col-md-12 mb-3">Export Monitoring</a>
+    
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

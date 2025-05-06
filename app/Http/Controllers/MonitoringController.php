@@ -27,7 +27,7 @@ class MonitoringController extends Controller
         $monitoring = Monitoring::findOrFail($id);
         $monitoring->delete();
 
-        return redirect()->route('components.monitoring.index')->with('success', 'Monitoring berhasil dihapus!');
+        return redirect()->route('monitoring.index')->with('success', 'Monitoring berhasil dihapus!');
     }
 
 
@@ -140,7 +140,7 @@ class MonitoringController extends Controller
 
         $view_link_by_id = Link::where("id", $id)->first();
         $view_platforms = Platform::all();
-    
+        // return $view_link_by_id->context;
     
 
 
@@ -158,8 +158,14 @@ class MonitoringController extends Controller
             ]
         );
         $section->addText(
-            "Kepada Yth. Bapak Panglima TNI.\n
-            Selamat malam Bapak Panglima, Melaporkan *Amplifikasi kegiatan positif TNI* sbb :",
+            "Kepada Yth. Bapak Panglima TNI.",
+            [
+                "name" => "Arial",
+                "size" => 11
+            ]
+        );
+        $section->addText(
+            "Selamat malam Bapak Panglima, Melaporkan *Amplifikasi kegiatan positif TNI* sbb :",
             [
                 "name" => "Arial",
                 "size" => 11
@@ -168,7 +174,7 @@ class MonitoringController extends Controller
 
         $section->addText($view_link_by_id->link);
 
-
+        $section->addText($view_link_by_id->context);
         foreach ($view_platforms as $view_platform) {
             $section->addText($view_platform->name."\n");
     
