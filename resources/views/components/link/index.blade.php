@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section("title", "View Link")
+
 @section('content')
 <div class="container">
     <h2 class="mb-4">Daftar Link</h2>

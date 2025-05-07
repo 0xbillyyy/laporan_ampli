@@ -203,4 +203,11 @@ class MonitoringController extends Controller
     
     }
 
+    public function view_export(){
+        $links = Link::all();
+        return view("components.monitoring.view_export", compact("links"));
+    }
+
+
+
 }

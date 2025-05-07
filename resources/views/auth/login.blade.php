@@ -35,16 +35,13 @@
                                 <label class="custom-control-label" for="remember">Remember Me</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                        <button type="submit" class="btn btn-danger btn-user btn-block">
                             Login
                         </button>
                     </form>
 
                     <hr>
 
-                    <div class="text-center">
-                        <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
-                    </div>
 
                 </div>
             </div>

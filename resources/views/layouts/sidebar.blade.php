@@ -1,5 +1,5 @@
 <!-- sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -76,7 +76,7 @@
                 <h6 class="collapse-header">Custom Monitorings:</h6>
                 <a class="collapse-item" href="{{ route('monitoring.index') }}">View Monitoring</a>
                 <a class="collapse-item" href="{{ route('monitoring.create') }}">Create Monitoring</a>
-                <a class="collapse-item" href="{{ route('monitoring.conver') }}">Export Monitoring</a>
+                <a class="collapse-item" href="{{ route('export') }}">Export Monitoring</a>
             </div>
         </div>
     </li>

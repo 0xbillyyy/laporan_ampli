@@ -9,6 +9,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\TestingController;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -17,7 +18,7 @@ use App\Models\Link;
 use App\Models\Platform;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect("/login");
 });
 
 // Route::get('/dashboard', function () {
@@ -94,6 +95,7 @@ Route::middleware(["auth", "verified"])->group(function(){
     Route::get('/monitoring/index', [MonitoringController::class, 'index'])->name('monitoring.index');
     Route::delete('/monitoring/{id}', [MonitoringController::class, 'destroy'])->name('monitoring.destroy');
 
+    Route::get('/dashboard/logout', [UserController::class, 'logout'])->name('dashboard.logout');
 
     Route::get("/testing", [TestingController::class, "index"])->name("testing");
 

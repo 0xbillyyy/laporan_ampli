@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
+
+use Illuminate\Http\RedirectResponse; // <-- Tambahkan ini di atas
 
 class UserController extends Controller
 {
@@ -53,5 +56,16 @@ class UserController extends Controller
 
         $user->delete();
         return redirect()->route('users')->with('success', 'User berhasil dihapus!');
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+    
+        $request->session()->invalidate();
+    
+        $request->session()->regenerateToken();
+    
+        return redirect('/login');
     }
 }

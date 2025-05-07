@@ -1,4 +1,5 @@
 @extends('layouts.app') <!-- Sesuaikan layout kamu -->
+@section("title", "Create Link")
 
 @section('content')
 <div class="container">
@@ -29,7 +30,7 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="context">Context (opsional)</label>
+            <label for="context">Title</label>
             <textarea name="context" id="context" class="form-control"></textarea>
         </div>
 
