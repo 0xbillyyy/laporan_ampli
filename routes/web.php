@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\home;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\LinkController;
@@ -61,18 +62,33 @@ Route::middleware(["auth", "verified"])->group(function(){
         Route::get('/platform/create', [PlatformController::class, 'create'])->name('platform.create');
         Route::post('/platform/store', [PlatformController::class, 'store'])->name('platform.store');
         Route::delete('/platform/{platform}', [PlatformController::class, 'destroy'])->name('platform.destroy');
-    });
-    
-    Route::middleware(["auth", "verified", "role:admin"])->group(function(){
+
+
         Route::get('/link/create', [LinkController::class, 'create'])->name('link.create');
         Route::post('/link/store', [LinkController::class, 'store'])->name('link.store');
         Route::get('/link/index', [LinkController::class, 'index'])->name('link.index');
         Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
+
+
+        Route::get("/export/word/{id}", [MonitoringController::class, "convert"])->name("convert.docx");
+        Route::get("/export", [MonitoringController::class, "view_export"])->name("export");
+
+
+        Route::get("/users", [UserController::class, "index"])->name("users");
+        Route::get('/users/create', [App\Http\Controllers\UserController::class, 'create'])->name('users.create');
+        Route::post('/users/store', [App\Http\Controllers\UserController::class, 'store'])->name('users.store');
+        Route::delete('/users/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+
+
     });
     
-    Route::middleware(["auth", "verified", "role:admin"])->group(function(){
-        Route::get("/export/word/{id}", [MonitoringController::class, "convert"])->name("convert.docx");
-    });
+    // Route::middleware(["auth", "verified", "role:admin"])->group(function(){
+
+    // });
+    
+    // Route::middleware(["auth", "verified", "role:admin"])->group(function(){
+    // });
+
     Route::get('/monitoring/create', [MonitoringController::class, 'create'])->name('monitoring.create');
     Route::post('/monitoring/store', [MonitoringController::class, 'store'])->name('monitoring.store');
     Route::get('/monitoring/index', [MonitoringController::class, 'index'])->name('monitoring.index');
