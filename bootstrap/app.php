@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'autosave-monitoring' // <-- exclude this route
         ]);
 
+        $middleware->alias([
+            'role' => \App\Http\Middleware\CheckRole::class,
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

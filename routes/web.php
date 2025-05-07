@@ -23,6 +23,12 @@ Route::get('/', function () {
     
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware(['auth', "verified", 'role:admin'])->group(function () {
+    Route::get('/awok', function(){
+        echo "sip";
+    })->name('admin.dashboard');
+});
+
 Route::middleware(["auth", "verified"])->group(function(){
     // Route::post('/autosave-monitoring', [MonitoringController::class, 'autoSave']);
     Route::match(['post', 'put'], '/autosave-monitoring', [MonitoringController::class, 'autoSave'])->name('autosave-monitoring');
@@ -48,25 +54,29 @@ Route::middleware(["auth", "verified"])->group(function(){
     // Route::get("/category_platform/create", [CategoryPlatformController::class, "create"])->name("create_category_platform");
 
     //platform category
-    Route::get('/platform/index', [PlatformController::class, 'index'])->name('platform.index');
-    Route::get('/platform/create', [PlatformController::class, 'create'])->name('platform.create');
-    Route::post('/platform/store', [PlatformController::class, 'store'])->name('platform.store');
-    Route::delete('/platform/{platform}', [PlatformController::class, 'destroy'])->name('platform.destroy');
 
+    Route::middleware(["auth", "verified", "role:admin"])->group(function(){
 
-    Route::get("/export/word/{id}", [MonitoringController::class, "convert"])->name("convert.docx");
+        Route::get('/platform/index', [PlatformController::class, 'index'])->name('platform.index');
+        Route::get('/platform/create', [PlatformController::class, 'create'])->name('platform.create');
+        Route::post('/platform/store', [PlatformController::class, 'store'])->name('platform.store');
+        Route::delete('/platform/{platform}', [PlatformController::class, 'destroy'])->name('platform.destroy');
+    });
+    
+    Route::middleware(["auth", "verified", "role:admin"])->group(function(){
+        Route::get('/link/create', [LinkController::class, 'create'])->name('link.create');
+        Route::post('/link/store', [LinkController::class, 'store'])->name('link.store');
+        Route::get('/link/index', [LinkController::class, 'index'])->name('link.index');
+        Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
+    });
+    
+    Route::middleware(["auth", "verified", "role:admin"])->group(function(){
+        Route::get("/export/word/{id}", [MonitoringController::class, "convert"])->name("convert.docx");
+    });
     Route::get('/monitoring/create', [MonitoringController::class, 'create'])->name('monitoring.create');
     Route::post('/monitoring/store', [MonitoringController::class, 'store'])->name('monitoring.store');
     Route::get('/monitoring/index', [MonitoringController::class, 'index'])->name('monitoring.index');
     Route::delete('/monitoring/{id}', [MonitoringController::class, 'destroy'])->name('monitoring.destroy');
-
-
-    
-    Route::get('/link/create', [LinkController::class, 'create'])->name('link.create');
-    Route::post('/link/store', [LinkController::class, 'store'])->name('link.store');
-    Route::get('/link/index', [LinkController::class, 'index'])->name('link.index');
-    Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
-
 
 
     Route::get("/testing", [TestingController::class, "index"])->name("testing");
