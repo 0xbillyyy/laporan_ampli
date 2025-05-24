@@ -9,6 +9,7 @@
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Links List</h6>
@@ -42,7 +43,11 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center">Tidak ada link tersedia.</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td class="text-center">Tidak ada link tersedia.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -52,15 +57,26 @@
     </div>
 </div>
 @endsection
+
 @push('scripts')
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
+<!-- jQuery (wajib untuk DataTables) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
 <script>
     $(document).ready(function () {
-        $('#dataTable').DataTable();
+        $('#dataTable').DataTable({
+            responsive: true,
+            autoWidth: false,
+            language: {
+                emptyTable: "Tidak ada data tersedia di tabel"
+            }
+        });
     });
 </script>
 @endpush

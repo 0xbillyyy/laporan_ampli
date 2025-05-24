@@ -11,6 +11,11 @@
 
 </div>
 <div class="container-fluid">
-    ini drop all db
+    @if(auth()->user()->role == "admin")
+    <form action="{{ route('reset.tables') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus semua data?')">
+        @csrf
+        <button type="submit" class="btn btn-danger btn btn-danger col-md-12">Reset Semua Tabel</button>
+    </form>    
+    @endif
 </div>
 @endsection

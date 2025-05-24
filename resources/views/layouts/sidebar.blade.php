@@ -76,7 +76,9 @@
                 <h6 class="collapse-header">Custom Monitorings:</h6>
                 <a class="collapse-item" href="{{ route('monitoring.index') }}">View Monitoring</a>
                 <a class="collapse-item" href="{{ route('monitoring.create') }}">Create Monitoring</a>
+                @if(auth()->user()->role == "admin")
                 <a class="collapse-item" href="{{ route('export') }}">Export Monitoring</a>
+                @endif
             </div>
         </div>
     </li>
@@ -105,13 +107,7 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 
-    <!-- Sidebar Message -->
-    <div class="sidebar-card d-none d-lg-flex">
-        <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-        <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!
-        </p>
-        <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-    </div>
+
 
 </ul>
 <!-- End of Sidebar -->

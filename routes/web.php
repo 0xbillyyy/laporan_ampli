@@ -9,6 +9,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\ResetController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -81,6 +82,10 @@ Route::middleware(["auth", "verified"])->group(function(){
         Route::delete('/users/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 
         Route::delete('/monitoring/{id}', [MonitoringController::class, 'destroy'])->name('monitoring.destroy');
+
+
+
+        Route::post('/reset-tables', [ResetController::class, 'reset'])->name('reset.tables');
 
     });
     
