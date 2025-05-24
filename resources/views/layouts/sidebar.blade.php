@@ -92,12 +92,14 @@
     </div>
 
     <!-- Nav Item - Charts -->
+    @if(auth()->user()->role == "admin")
+
     <li class="nav-item">
         <a class="nav-link" href="{{ route('users') }}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Users</span></a>
     </li>
-
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
