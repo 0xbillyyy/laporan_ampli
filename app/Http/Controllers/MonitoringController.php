@@ -18,7 +18,7 @@ class MonitoringController extends Controller
 
     public function index()
     {
-        $monitorings = Monitoring::all();
+        $monitorings = Monitoring::with('user')->get();
         return view('components.monitoring.index', compact('monitorings'));
     }
 

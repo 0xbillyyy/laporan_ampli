@@ -17,7 +17,7 @@
             <div class="row text-center mb-3">
                 <div class="col">
                     <p class="text-uppercase" style="margin-top: -10px;">{{ $link->link }}</p>
-                    <a class="text-uppercase" style="">[ {{ $link->link }} ]</a>
+                    <a class="text-uppercase" style="" href="{{ $link->link }}" target="_blank">[ {{ $link->link }} ]</a>
                 </div>
             </div>
 

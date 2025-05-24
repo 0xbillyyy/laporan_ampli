@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
     <h2>Daftar User</h2>
-
+    <a href="{{route('users.create')}}" class="btn btn-danger col-md-12 mt-3 mb-3">Create User</a>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif

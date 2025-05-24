@@ -80,6 +80,7 @@ Route::middleware(["auth", "verified"])->group(function(){
         Route::post('/users/store', [App\Http\Controllers\UserController::class, 'store'])->name('users.store');
         Route::delete('/users/{id}', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
 
+        Route::delete('/monitoring/{id}', [MonitoringController::class, 'destroy'])->name('monitoring.destroy');
 
     });
     
@@ -93,7 +94,6 @@ Route::middleware(["auth", "verified"])->group(function(){
     Route::get('/monitoring/create', [MonitoringController::class, 'create'])->name('monitoring.create');
     Route::post('/monitoring/store', [MonitoringController::class, 'store'])->name('monitoring.store');
     Route::get('/monitoring/index', [MonitoringController::class, 'index'])->name('monitoring.index');
-    Route::delete('/monitoring/{id}', [MonitoringController::class, 'destroy'])->name('monitoring.destroy');
 
     Route::get('/dashboard/logout', [UserController::class, 'logout'])->name('dashboard.logout');
 

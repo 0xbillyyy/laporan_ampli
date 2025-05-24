@@ -17,7 +17,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -25,7 +25,10 @@
                             <th>Link</th>
                             <th>Content</th>
                             <th>Platform</th>
+                            <th>Name</th>
+                            @if(auth()->user()->role == "admin")
                             <th>Actions</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +39,8 @@
                                 <td><a href="{{ $monitoring->link }}" target="_blank">{{ $monitoring->link }}</a></td>
                                 <td>{{ $monitoring->content }}</td>
                                 <td>{{ $monitoring->platform->name }}</td>
+                                <td>{{ $monitoring->user->name ?? 'Tidak ada user' }}</td>
+                                @if(auth()->user()->role == "admin")
                                 <td>
                                     <form action="{{ route('monitoring.destroy', $monitoring->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus monitoring ini?');">
                                         @csrf
@@ -43,6 +48,7 @@
                                         <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                                     </form>
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -52,3 +58,15 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+@endpush
